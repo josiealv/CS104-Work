@@ -1,0 +1,259 @@
+Problem 1:
+    1)  a list because the subjects are ordered by number in the subject pool
+        and you can insert and remove subjects into each experiment as well as
+        getting the history of each subject.
+    2)  a set of 103 students who got A's because all we're 
+        doing is storing the students who got A's in 103 and order doesn't matter
+        (i.e.adding and removing students). 
+    3)  A map of 104 students because we can add and remove students by name
+        as well as get a student. (key is a student name)
+    4)  a map of 103 students bc we are getting students who earned a specific grade
+        (key is a specific grade)
+
+Problem 2:
+    | 1 | 2 | 3 | 4 | 5 |
+
+    funcA:
+        in->1 (head is 1)
+        out = in => out and in point to the same address
+
+        while (out -> next != NULL)
+            out -> 2
+            out -> 3 
+            out -> 4
+            out -> 5
+        end of loop
+
+        *calls funcB the returned pointer's next pointer point to NULL*
+        return out
+    funcB:
+        in->1
+        if (in->next != NULL)
+        *recursively calls funcB w/ in->next parameter)*
+
+                            *2 -> next = *1
+                            / ^\
+                          *3 -> next = *2
+                          / ^\ 
+                        *4 -> next = *3
+                        /  ^\
+                      *5  stops here, so:  *5 -> next = *4
+                      /                       ^\
+                    NULL, so we return (pointer to 5)  
+
+        returns | 5 | 4 | 3 | 2 | 1 |
+        then sets *1 -> next = NULL
+
+    funcA returns:     
+        out -> 5 -> 4 -> 3 -> 2 -> 1 -> NULL
+
+Problem 3:
+    a) for (int i = 0; i < n; i ++)
+       {  // A is an array of integers of sufficient size
+            if (A[i] == 0) {
+                for (int j = 0; j <= i; j++) {                               
+                    if (A[i] == 0) {                                           
+                        for (int k = 0; k <= j; k++) {              
+                            A[i] = 1;   // this is no typo ]  
+                        }
+                    }
+                }
+            }
+       }                         
+        
+       - inner most loop:
+            A[i] = 1: runtime of Theta(1)
+            loop itself:
+            j
+           Sigma  Theta(1) = Theta(j+1) <- goes from 0 to j
+            k=0
+       -if (A[i] ==0) statement:
+            In the inner most for loop (k), we change A[i] = 1, in the worst case, 
+            every element in A is 0, but since we are changing A[i] = 1 
+            in the k loop & we aren't incrementing i until we exit 
+            the second loop, the if statement executes only once => Theta(1)
+      -second for loop (j)
+       (basically putting together the if statement & k loop):
+            i
+          Sigma Theta(1) + (Theta(1)*Theta(j+1)) <- becomes Theta(j+1)
+           j=0
+           
+           we add the two summations because we know the 
+           if statement only executes once 
+           & so after we just keep looping thru the j loop until it gets to i
+      -outer loop w/ if statement:
+           as stated before, the worst case is if every element in A is 0, 
+           so we assume the if statement executes everytime and so we get
+           n-1    Theta( i                                                
+          Sigma        Sigma Theta(1) + Theta(j+1)  
+           i=0          j=0                                               
+
+              n-1
+           = Sigma Theta(Theta(i) + Theta(i+1))
+              i=0
+   
+              n-1  
+           = Sigma  Theta(Theta(2i+1)) = [Theta(n^2)]
+              j=0
+       -final answer: Theta(n^2) (dropped constants & smaller terms)
+       
+    b)for (int i = 1; i < n; i *= 2)
+      {
+        func(i);
+      }
+
+      void func(int x) {
+        if (x <= 1) return;
+        func(x-1);
+      }
+      
+      -start at recursive function:
+            base case has a runtime of Theta(1)
+            --find the recurrenc relation:
+                    when we do the recursive call, we decrement x by 1 
+                    and our base case is Theta(1), so we put it together:
+                    f(x) = (x-1) + Theta(1)
+                    
+                    can rewrite as:
+                    f(x) = [f(x-2) + Theta(1)] + Theta(1)
+                         .
+                         .
+                         .
+                         = f(1) + Theta(1) + Theta(1) + ...+ Theta(1)<- up to x
+                         -- f(1) = Theta(1)
+                            --f(x) = x*Theta(1) 
+                                   = Theta(x)
+      -for loop:
+            we call our recursive function in this loop & 
+            the loop increments i by a factor of 2
+            --each time we call func(i) in the for loop, 
+              it'll look something like this:
+                    f(1) = 1+ <- "steps" taken in func(i)
+                    f(2) = 2+
+                    f(4) = 4+
+                        .
+                        .
+                        .
+                 f(n/2) =  n/2 <- up to n/2 since the for loop goes from 1 to n 
+                 and increments i by a factor of 2 (i.e. 1+2+4+...+ (n/2))
+                    --so our summation is just:
+                        log n <- log is of base 2
+                        Sigma   Theta(2^i) = Theta(n)
+                         i=1 
+                         
+      -final answer: Theta(n)
+      
+   c) Node *head = new Node;
+      Node *curr = head;
+      head->data = 0;
+      head->next = nullptr;
+      for (int i = 1; i < n; i++)
+      {
+         curr->next = new Node;
+         curr = curr->next;
+         curr->data = i;
+         curr->next = nullptr;
+       }
+       for (int i = 1; i <= n; i++) {
+          curr = head;
+          while (curr != nullptr) {
+             if (curr->data % i == 0) {
+                for (int j = 0; j < n; j++) {
+                     A[j] ++;
+                }
+             }
+             curr = curr->next;
+           }
+        }
+        -first for loop:
+           n-1
+          Sigma Theta(4) = 4*Theta(n)
+           i=1
+        -inner most for loop in the second loop:
+            A[j]++: runtime of Theta(1)
+            loop itself:
+            n-1
+           Sigma   Theta(1) = Theta(n) <- goes from 0 to n-1
+            j=0
+        -if statement in 2nd for loop(if executed):
+            when i=1
+            if statement runs n times 
+            (since curr->data goes from 0 -> n and every value is divisble by 1)
+            
+            when i=2
+            if statement runs n/2 times (0, 2, 4, ...., n/2)
+            
+            when i=3
+            if statement runs n/3 times (0, 3, 6, ... n/3)
+            .
+            .
+            .
+            summation becomes:
+                n
+              Sigma (n/i)
+               i=1
+        -if statement not executed, just while and outer for loop:
+            traversing thru linked list: Theta(1)
+            while loop:
+            (0, n-n/2, n-n/3,...) => Theta(n)
+            final runtime for while loop when if statement is not executed: Theta(n)
+        -outer for loop:
+            n
+          Sigma Theta(1) = Theta(n)
+           i=1
+        -putting it altogether:
+            n
+         =(Sigma n/i ) * n + Theta(n^2) + 4*Theta(n) 
+           i=1
+                 n
+         = n^2(Sigma 1/i ) + Theta(n^2) + 4*Theta(n)
+                i=1
+         = Theta(n^2*log n) + Theta(n^2) + 4*Theta(n) <- drop all the smaller terms
+         
+        -final answer:  Theta(n^2*log n)
+        
+ d) double *a = new double [3];
+    int size = 3;
+    for (int i = 0; i < n; i ++) 
+    {
+        if (i == size)
+        {  
+           int newsize = 3 * size;
+           double *b = new double [newsize];
+           for (int j = 0; j < size; j++) b[j] = a[j];
+           delete [] a;
+           a = b;
+           size = newsize;
+        }
+        a[i] = sqrt(i);
+   }
+   
+   -worst case: n is 1+3k (k element of Z+)
+   -inner for loop/if statement:
+        runs Theta(size), but what is size?
+        --at initialization, size = 3 and is then updated to be 9 (3*3) 
+          only if the if statement executes
+        -- so size is 3^p where p is an arbitrary number that we must solve for
+   -outer loop:
+        since we are considering the worst case, where n = 1+3k 
+        (meaning the if statement executes at least once)
+        however, we should consider the times when the if statement 
+        doesn't execute on i
+        --if n=7, the statement executes only 1x, same for when n=4, 
+          but when n=10, the statement executes 2x
+            --so we can deduce that the amount of times 
+              the if statement is executed is: log3^n
+       --but for the times when the if statement is not executed, 
+         we get: Theta(n-log3^n)
+       
+      we can say that p = log3^n since p represents 
+      the # of times the if statement is executed 
+      & the amount of times that size should be incremented by 3, 
+      so the runtime for the for loop in the if statement is: 
+       Theta(3^(log3^n)) = Theta(n)
+       
+   -put it altogether:
+       Theta(n-log3^n) + Theta(n) <- drop the smaller term
+  
+   -final answer: Theta(n)
+        

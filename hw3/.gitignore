@@ -1,0 +1,19 @@
+#Excecutables
+*permutations
+*cave
+*CompanyTrack
+
+#.o files
+*company.o
+#main test cpp files
+*company_test.cpp
+
+#DS files (or whatever they're called)
+*.dSYM
+*.DS_Store
+
+#text files used for testing
+*input1.txt
+*input2.txt
+*input3.txt
+*input4.txt

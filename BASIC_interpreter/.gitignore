@@ -1,0 +1,36 @@
+#executables
+*hw4
+*main
+
+#.o
+*command.o
+*interpreter.o
+*variables.o
+*arithmetic.o
+*booleanExpression.o
+
+#text files
+*.txt
+*test.txt
+*array_complex.txt 
+*array_intermediate.txt
+*print_complex.txt
+*let_complex.txt
+*let_intermediate.txt
+*constant_basic.txt
+*if_intermediate.txt
+*if_complex.txt
+*other_basic.txt
+*let_variable_of_variable.txt
+*bens_test_case.txt
+*let_basic.txt
+*print_basic.txt
+*goto_basic.txt
+*bytes_test_medium.txt
+*bytes_test_hard.txt
+*Ruchis_test_case.txt
+*return.txt
+*someones_test_case.txt
+
+#visualStudioCode settings
+*.vscode
