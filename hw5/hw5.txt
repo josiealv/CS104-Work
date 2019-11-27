@@ -1,0 +1,27 @@
+                              C                    
+                            /  ^\
+                           H     E
+                          / \   /  \
+                         M   I  S   T
+                        / \
+                       R   Y
+
+2. Min Heap bc all children are smaller than its parent as well as the root (C)
+3. Add D
+
+                              C                    
+                            /  ^\
+                           D      E
+                         /  \    /  \
+                        M    H  S    T
+                      /  \   /
+                     R   Y  I
+
+4. after one call to remove
+                              D                    
+                            /  ^\
+                           H     E
+                          / \   /  \
+                        M    I  S   T
+                       / \   
+                      R   Y 
