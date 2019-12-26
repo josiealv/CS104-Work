@@ -32,3 +32,6 @@
 *.app
 
 *helloworld
+
+# VS DS_Store
+*.DS_Store
